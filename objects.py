@@ -1,11 +1,18 @@
 # objects.py
 
 
-class task:
+class Task:
     def __init__(self, project):
+        self.type = "Task"
         self.project = project
         self.complete = False
         self.description = ""
+
+    def __repr__(self):
+        string =  (self.type + "\nProject: " + self.project +
+               "\nComplete: " + str(self.complete) +
+               "\nDescription: " + self.description)
+        return string
 
     def setComplete(self):
         self.complete = True
@@ -28,9 +35,10 @@ class task:
     def getProject(self):
         return self.Project
 
-class bug(task):
+class Bug(Task):
     def __init__(self, project):
-        task.__init__(self, project)
+        Task.__init__(self, project)
+        self.type = "Bug"
         self.lines = []
 
     def setLines(self, lines):
