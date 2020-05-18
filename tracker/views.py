@@ -3,4 +3,4 @@ from django.http import HttpResponse
 
 
 def index(request):
-    return HttpResponse("Welcome to Bugoff! The Python bug tracker.")
+    return HttpResponse("Welcome to Bugoff! The online Python bug tracker.")
