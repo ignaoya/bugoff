@@ -1,5 +1,6 @@
 from django.db import models 
 from django.utils import timezone
+from django.urls import reverse
 from datetime import datetime
 
 
@@ -9,6 +10,10 @@ class Project(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse('tracker:project_detail',
+                        args=[self.name])
 
 
 class Bug(models.Model):
@@ -25,6 +30,11 @@ class Bug(models.Model):
             return "Closed bug (project " + self.project.name
         else:
             return "Open bug (project " + self.project.name
+
+    def get_absolute_url(self):
+        return reverse('tracker:bug_detail',
+                        args=[self.id])
+
 
 
 class Worknote(models.Model):

@@ -1,0 +1,19 @@
+{% extends "tracker/base.html" %}
+
+{% block title %}{{ project.name }}{% endblock %}
+
+{% block content %}
+	<h1>{{ project.name }}</h1>
+	<p class="date">
+		Started {{ project.start_date }}
+	</p>
+	{% for bug in project.bug_set.all %}
+	<h3>
+		<a href="{{ bug.get_absolute_url }}">
+			Bug, Fixed: {{ bug.complete }}
+		</a>
+	</h3>
+	<p>{{ bug.description }}</p>
+		<br>
+	{% endfor %}
+{% endblock %}

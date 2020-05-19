@@ -1,0 +1,16 @@
+{% extends "tracker/base.html" %}
+
+{% block title %}{{ bug.project.name }}{% endblock %}
+
+{% block content %}
+	<h1>{{ bug.project.name }}</h1>
+	<h2>
+	Bug Opened {{ bug.open_date }}
+	</h2>
+	<br>
+	<p>{{ bug.description }}</p>
+	{% for worknote in bug.worknote_set.all %}
+	<p>{{ worknote.description }}</p>
+	<br>
+	{% endfor %}
+{% endblock %}
