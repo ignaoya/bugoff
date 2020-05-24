@@ -3,3 +3,4 @@
 *.db
 *.swp
 *.sqlite3
+/tracker/migrations/*
