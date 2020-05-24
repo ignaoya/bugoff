@@ -39,6 +39,7 @@ class Bug(models.Model):
 
 class Worknote(models.Model):
     bug = models.ForeignKey(Bug, on_delete=models.CASCADE)
+    name = models.CharField(max_length=80)
     description = models.TextField()
     date = models.DateTimeField('date', default=datetime.now, blank=True)
 
@@ -46,4 +47,4 @@ class Worknote(models.Model):
         ordering = ('-date',)
 
     def __str__(self):
-        return self.description
+        return f'Worknote by {self.name} on {self.bug}'

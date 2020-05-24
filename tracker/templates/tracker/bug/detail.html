@@ -9,8 +9,30 @@
 	</h2>
 	<br>
 	<p>{{ bug.description }}</p>
+
+	{% with bug.worknote_set.all.count as total_worknotes %}
+		<h2>
+			{{ total_worknotes }} worknote{{ total_worknotes|pluralize }}
+		</h2>
+	{% endwith %}
 	{% for worknote in bug.worknote_set.all %}
-	<p>{{ worknote.description }}</p>
-	<br>
+		<div class="comment">
+			<p class="info">
+				Worknote {{ forloop.counter }} by {{ worknote.name }}
+				{{ worknote.date }}
+			</p>
+			{{ worknote.description|linebreaks }}
+		</div>
+	{% empty %}
+		<p>There are no worknotes yet.</p>
 	{% endfor %}
+	{% if new_worknote %}
+		<h2>Your worknote has been added.</h2>
+	{% endif %}
+	<h2>Add a new worknote</h2>
+	<form method="post">
+		{{ worknote_form.as_p }}
+		{% csrf_token %}
+		<p><input type="submit" value="Add worknote"></p>
+	</form>
 {% endblock %}

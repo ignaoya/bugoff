@@ -14,5 +14,6 @@ class BugAdmin(admin.ModelAdmin):
 
 @admin.register(Worknote)
 class WorknoteAdmin(admin.ModelAdmin):
-    list_display = ('bug', 'date')
+    list_display = ('name', 'bug', 'date')
+    search_fields = ('name', 'description')
 
