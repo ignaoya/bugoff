@@ -18,6 +18,7 @@ class Project(models.Model):
 
 class Bug(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    name = models.CharField(max_length=80)
     description = models.TextField()
     complete = models.BooleanField(default=False)
     open_date = models.DateTimeField('date opened', default=datetime.now, blank=True)
@@ -27,9 +28,9 @@ class Bug(models.Model):
 
     def __str__(self):
         if self.complete:
-            return "Closed bug (project " + self.project.name
+            return "Closed bug created by " + self.name + "for project " + self.project.name
         else:
-            return "Open bug (project " + self.project.name
+            return "Open bug created by " + self.name + "for project " + self.project.name
 
     def get_absolute_url(self):
         return reverse('tracker:bug_detail',

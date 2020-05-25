@@ -4,7 +4,7 @@ from .models import Bug, Worknote
 class BugForm(forms.ModelForm):
     class Meta:
         model = Bug
-        fields = ('description',)
+        fields = ('name', 'description')
 
 class WorknoteForm(forms.ModelForm):
     class Meta:

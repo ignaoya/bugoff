@@ -11,8 +11,9 @@
 	<div class="comment">
 	<h3>
 		<a href="{{ bug.get_absolute_url }}">
-			Bug, Fixed: {{ bug.complete }}
+			Bug {{ forloop.counter }}
 		</a>
+		created by {{bug.name}}, {{ bug.open_date }}
 	</h3>
 	<p>{{ bug.description }}</p>
 	</div>
