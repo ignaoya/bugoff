@@ -8,12 +8,29 @@
 		Started {{ project.start_date }}
 	</p>
 	{% for bug in project.bug_set.all %}
+	<div class="comment">
 	<h3>
 		<a href="{{ bug.get_absolute_url }}">
 			Bug, Fixed: {{ bug.complete }}
 		</a>
 	</h3>
 	<p>{{ bug.description }}</p>
-		<br>
+	</div>
+	{% empty %}
+		<p> There are no bugs yet.</p>
 	{% endfor %}
+	{% with project.bug_set.all.count as total_bugs %}
+		<h2>
+			{{ total_bugs }} bug{{total_bugs|pluralize }}
+		</h2>
+	{% endwith %}
+	{% if new_bug %}
+		<h2>Your bug has been added.</h2>
+	{% endif %}
+	<h2>Add a new bug</h2>
+	<form method="post">
+		{{ bug_form.as_p }}
+		{% csrf_token %}
+		<p><input type="submit" value="Add bug"></p>
+	</form>	
 {% endblock %}
