@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .models import Project, Bug, Worknote
-from .forms import BugForm, WorknoteForm
+from .forms import BugForm, BugCompleteForm, WorknoteForm
 
 
 def index(request):
@@ -65,10 +65,13 @@ def bug_detail(request, id):
     # List of worknotes for this bug
     worknotes = bug.worknote_set.all()
     new_worknote = None
+    bug_update = None
 
     if request.method == 'POST':
         # A worknote was posted
         worknote_form = WorknoteForm(data = request.POST)
+        complete_form = BugCompleteForm(data = request.POST, instance = bug)
+        
         if worknote_form.is_valid():
             # Create Worknote object but don't save to database yet
             new_worknote = worknote_form.save(commit = False)
@@ -76,11 +79,17 @@ def bug_detail(request, id):
             new_worknote.bug = bug
             # Save the worknote to database
             new_worknote.save()
+
+        if complete_form.is_valid():
+            bug_update = complete_form.save()
     else:
         worknote_form = WorknoteForm()
+        complete_form = BugCompleteForm()
     return render(request, 'tracker/bug/detail.html', 
                   {'bug': bug, 
                    'worknotes': worknotes,
                    'new_worknote': new_worknote,
-                   'worknote_form': worknote_form})
+                   'bug_update': bug_update,
+                   'worknote_form': worknote_form,
+                   'complete_form': complete_form})
 

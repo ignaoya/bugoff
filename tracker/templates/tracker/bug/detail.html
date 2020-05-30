@@ -35,6 +35,7 @@
 	<h2>Add a new worknote</h2>
 	<form method="post">
 		{{ worknote_form.as_p }}
+		{{ complete_form.as_p }}
 		{% csrf_token %}
 		<p><input type="submit" value="Add worknote"></p>
 	</form>
