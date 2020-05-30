@@ -27,7 +27,7 @@ def project_detail(request, name):
 
     # List of incomplete bugs for this post
     object_list = project.bug_set.filter(complete=False)
-    paginator = Paginator(object_list, 3) # 5 projects in each page
+    paginator = Paginator(object_list, 5) # 5 projects in each page
     page = request.GET.get('page')
     try:
         bugs = paginator.page(page)
