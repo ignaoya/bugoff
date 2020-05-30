@@ -10,7 +10,7 @@ def index(request):
 
 def project_list(request):
     object_list = Project.objects.all()
-    paginator = Paginator(object_list, 1) # 3 projects in each page
+    paginator = Paginator(object_list, 5) # 5 projects in each page
     page = request.GET.get('page')
     try:
         projects = paginator.page(page)
@@ -26,7 +26,18 @@ def project_detail(request, name):
     project = get_object_or_404(Project, name=name)
 
     # List of incomplete bugs for this post
-    bugs = project.bug_set.filter(complete=False)
+    object_list = project.bug_set.filter(complete=False)
+    paginator = Paginator(object_list, 3) # 5 projects in each page
+    page = request.GET.get('page')
+    try:
+        bugs = paginator.page(page)
+    except PageNotAnInteger:
+        # if page is not an integer deliver the first page
+        bugs = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range deliver last page of results
+        bugs = paginator.page(paginator.num_pages)
+
     new_bug = None
 
     if request.method == 'POST':
@@ -43,6 +54,7 @@ def project_detail(request, name):
         bug_form = BugForm()
     return render(request, 'tracker/project/detail.html', 
                   {'project': project,
+                   'page': page,
                    'bugs': bugs,
                    'new_bug': new_bug,
                    'bug_form': bug_form})

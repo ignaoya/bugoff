@@ -7,7 +7,7 @@
 	<p class="date">
 		Started {{ project.start_date }}
 	</p>
-	{% for bug in project.bug_set.all %}
+	{% for bug in bugs %}
 	<div class="comment">
 	<h3>
 		<a href="{{ bug.get_absolute_url }}">
@@ -20,7 +20,8 @@
 	{% empty %}
 		<p> There are no bugs yet.</p>
 	{% endfor %}
-	{% with project.bug_set.all.count as total_bugs %}
+	{% include "pagination.html" with page=bugs %}
+	{% with bugs.count as total_bugs %}
 		<h2>
 			{{ total_bugs }} bug{{total_bugs|pluralize }}
 		</h2>
