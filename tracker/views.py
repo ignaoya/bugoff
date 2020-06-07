@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .models import Project, Bug, Worknote
+from taggit.models import Tag
 from .forms import BugForm, BugCompleteForm, WorknoteForm
 
 
@@ -22,11 +23,17 @@ def project_list(request):
         projects = paginator.page(paginator.num_pages)
     return render(request, 'tracker/project/list.html', {'page': page, 'projects': projects})
 
-def project_detail(request, name):
+def project_detail(request, name, tag_slug=None):
     project = get_object_or_404(Project, name=name)
 
     # List of incomplete bugs for this post
     object_list = project.bug_set.filter(complete=False)
+    tag = None
+
+    if tag_slug:
+        tag = get_object_or_404(Tag, slug=tag_slug)
+        object_list = object_list.filter(tags__in=[tag])
+        
     paginator = Paginator(object_list, 5) # 5 projects in each page
     page = request.GET.get('page')
     try:
@@ -57,7 +64,8 @@ def project_detail(request, name):
                    'page': page,
                    'bugs': bugs,
                    'new_bug': new_bug,
-                   'bug_form': bug_form})
+                   'bug_form': bug_form,
+                   'tag': tag})
 
 def bug_detail(request, id):
     bug = get_object_or_404(Bug, id=id)

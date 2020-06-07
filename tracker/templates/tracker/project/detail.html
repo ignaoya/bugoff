@@ -7,6 +7,9 @@
 	<p class="date">
 		Started {{ project.start_date }}
 	</p>
+	{% if tag %}
+		<h2>Posts tagged with "{{ tag.name }}"</h2>
+	{% endif %}
 	{% for bug in bugs %}
 	<div class="comment">
 	<h3>
@@ -15,6 +18,15 @@
 		</a>
 		created by {{bug.name}}, {{ bug.open_date }}
 	</h3>
+	<p class="tags">
+		Tags: 
+		{% for tag in bug.tags.all %}
+			<a href="{% url "tracker:bug_list_by_tag" project.name tag.slug %}">
+				{{ tag.name }}
+			</a>
+			{% if not forloop.last %}, {% endif %}
+		{% endfor %}
+	</p>
 	<p>{{ bug.description }}</p>
 	</div>
 	{% empty %}

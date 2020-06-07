@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 from django.urls import reverse
 from datetime import datetime
+from taggit.managers import TaggableManager
 
 
 class Project(models.Model):
@@ -22,6 +23,7 @@ class Bug(models.Model):
     description = models.TextField()
     complete = models.BooleanField(default=False)
     open_date = models.DateTimeField('date opened', default=datetime.now, blank=True)
+    tags = TaggableManager()
 
     class Meta:
         ordering = ('-open_date',)

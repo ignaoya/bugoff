@@ -7,9 +7,10 @@
 	<h2>
 	Bug Opened {{ bug.open_date }}
 	</h2>
-	<a href="/{{ bug.project.name }}">
+	<a href="../../{{ bug.project.name }}">
 		Back to project
 	</a>
+	<p class="tags">Tags: {{ bug.tags.all|join:", " }}</p>
 	<br>
 	<p>{{ bug.description }}</p>
 
